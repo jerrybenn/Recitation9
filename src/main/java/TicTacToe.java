@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * This class implements the game we all love to
  * not play.
@@ -31,7 +33,10 @@ public class TicTacToe {
      */
     public boolean isValid(int location) {
         // TODO: add code here
-        return false;
+        if (location < 0 || location > 8){
+            return false;}
+        else{
+            return true;}
     }
 
     /**
@@ -42,7 +47,8 @@ public class TicTacToe {
      */
     public boolean isEmpty(int location) {
         // TODO: add code here
-        return false;
+
+        return getPiece(location) == null;
     }
 
     /**
@@ -52,7 +58,8 @@ public class TicTacToe {
      */
     public int movesRemaining() {
         // TODO: add code here
-        return 0;
+
+        return 9 - numOfMoves;
     }
 
     /**
@@ -62,8 +69,8 @@ public class TicTacToe {
      * @return the game piece at the provided location
      */
     public GamePiece getPiece(int location) {
-        // TODO: add code here
-        return null;
+
+       return board[location/board.length][location% board.length];
     }
 
     /**
@@ -73,13 +80,19 @@ public class TicTacToe {
      */
     public GamePiece getWinner() {
         GamePiece winner = null;
-        int[][] combos = {
-                {0, 1, 2}, {3, 4, 5}, {6, 7, 8}, // horizontal winning combinations
-                {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, // vertical winning combinations
-                {0, 4, 8}, {2, 4, 6}             // diagonal winning combinations
-        };
 
-        // TODO: add code here
+        ArrayList<int[]> combos = new ArrayList<>();
+        combos.add(new int [] {0, 1, 2});combos.add(new int [] {3, 4, 5});combos.add(new int [] {6, 7, 8});
+        // horizontal winning combinations
+        combos.add(new int [] {0, 3, 6});combos.add(new int [] {1, 4, 7});combos.add(new int [] {6, 7, 8});
+        // vertical winning combinations
+        combos.add(new int [] {2, 5, 8});combos.add(new int [] {0, 4, 8});combos.add(new int [] {2, 4, 6})
+        // diagonal winning combinations
+       if (combos.contains()){
+           winner = player[0];
+       } else if (combos.contains()) {
+           winner = player[1];
+       }
 
         return winner;
     }
@@ -120,10 +133,32 @@ public class TicTacToe {
      * Returns a string representation of the board
      * @return a string representation of the board
      */
+    private String separator(int row){
+        String s = "";
+        for(int col = 0; col < board[row].length; col++){
+            s += "+---";
+        }
+        s += "+\n";
+        return s;
+    }
     @Override
     public String toString() {
         String s = "";
-        // TODO: add code here
+        for(int row = 0; row < board.length; row++){
+            s += separator(row);
+            for(int col = 0; col < board[row].length; col++){
+                int location = row*board[row].length + col;
+                s += "| ";
+                if (isEmpty(location)){
+                    s += board[row][col];
+                }else{
+                    s += location ;
+                }
+                s += " ";
+            }
+            s += "|\n";
+        }
+        s += separator(board.length-1);
         return s;
     }
 }
