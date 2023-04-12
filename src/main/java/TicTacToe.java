@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * This class implements the game we all love to
@@ -69,8 +70,14 @@ public class TicTacToe {
      * @return the game piece at the provided location
      */
     public GamePiece getPiece(int location) {
+        int row = location / board.length;
+        int col = location % board.length;
 
-       return board[location/board.length][location% board.length];
+        GamePiece copy = board[row][col];
+        //return board[column][row];
+        //GamePiece gamepiece = new GamePiece(copy);
+        return board[row][col];
+
     }
 
     /**
@@ -81,19 +88,28 @@ public class TicTacToe {
     public GamePiece getWinner() {
         GamePiece winner = null;
 
-        ArrayList<int[]> combos = new ArrayList<>();
-        combos.add(new int [] {0, 1, 2});combos.add(new int [] {3, 4, 5});combos.add(new int [] {6, 7, 8});
-        // horizontal winning combinations
-        combos.add(new int [] {0, 3, 6});combos.add(new int [] {1, 4, 7});combos.add(new int [] {6, 7, 8});
-        // vertical winning combinations
-        combos.add(new int [] {2, 5, 8});combos.add(new int [] {0, 4, 8});combos.add(new int [] {2, 4, 6})
-        // diagonal winning combinations
-       if (combos.contains()){
-           winner = player[0];
-       } else if (combos.contains()) {
-           winner = player[1];
-       }
 
+        int[][] combos = {
+                {0, 1, 2}, {3, 4, 5}, {6, 7, 8}, // horizontal winning combinations
+                {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, // vertical winning combinations
+                {0, 4, 8}, {2, 4, 6}             // diagonal winning combinations
+        };
+        ArrayList<Integer> p1spots = new ArrayList<>();
+        ArrayList<Integer> p2spots = new ArrayList<>();
+        for (int location = 0; location <= 8; location++){
+            if (getPiece(location) == player[0])
+                p1spots.add(location);
+            else if (getPiece(location) == player[1])
+                p2spots.add(location);
+        }
+        for (int [] win : combos){
+            if (p1spots.contains(win[0]) && p1spots.contains(win[1]) && p1spots.contains(win[2])){
+                winner = player[0];
+            }
+            else if (p2spots.contains(win[0]) && p2spots.contains(win[1]) && p2spots.contains(win[2])){
+                winner = player[1];
+            }
+        }
         return winner;
     }
 
@@ -127,6 +143,9 @@ public class TicTacToe {
     public void clear() {
         // set all elements of 2d array to null
         // TODO: add code here
+        board = new GamePiece[3][3];
+        numOfMoves = 0;
+
     }
 
     /**
